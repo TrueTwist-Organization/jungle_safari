@@ -866,7 +866,7 @@ export default function App() {
         )}
         {currentPage === 'about' && <AboutScreen />}
         {currentPage === 'wildlife' && <WildlifeScreen triggerSound={triggerSound} />}
-        {currentPage === 'experiences' && <ExperiencesScreen />}
+        {currentPage === 'experiences' && <ExperiencesScreen navigateTo={navigateTo} />}
         {currentPage === 'blog' && <BlogScreen />}
         {currentPage === 'gallery' && <GalleryScreen />}
         {currentPage === 'contact' && <ContactScreen />}
@@ -3250,27 +3250,134 @@ const PERMIT_INCLUSIONS = [
   { icon: '\u{1F3AB}', label: 'Hassle-free Clearance' },
 ];
 
-function ExperiencesScreen() {
+function BookingSuccessModal({ open, onClose, onDone, details }) {
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose();
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open, onClose]);
+
+  if (!open || !details) return null;
+
+  const formattedDate = details.date
+    ? new Date(`${details.date}T12:00:00`).toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    : '—';
+
+  return createPortal(
+    <div
+      className="booking-success-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="booking-success-title"
+      onClick={onClose}
+    >
+      <div className="booking-success-modal" onClick={(event) => event.stopPropagation()}>
+        <div className="booking-success-modal__glow" aria-hidden="true" />
+
+        <button type="button" className="booking-success-modal__close" aria-label="Close" onClick={onClose}>
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <div className="booking-success-modal__icon" aria-hidden="true">✓</div>
+
+        <h2 id="booking-success-title" className="booking-success-modal__title cinzel">
+          Booking Request Received
+        </h2>
+        <p className="booking-success-modal__lead">
+          Your safari permit request has been filed securely. Our team will confirm your slot shortly.
+        </p>
+
+        <dl className="booking-success-modal__details">
+          <div className="booking-success-modal__row">
+            <dt>Package</dt>
+            <dd>{details.package}</dd>
+          </div>
+          <div className="booking-success-modal__row">
+            <dt>Date</dt>
+            <dd>{formattedDate}</dd>
+          </div>
+          <div className="booking-success-modal__row">
+            <dt>Guests</dt>
+            <dd>{details.guests}</dd>
+          </div>
+          {details.price != null && (
+            <div className="booking-success-modal__row">
+              <dt>Estimated fare</dt>
+              <dd>&#8377;{details.price.toLocaleString('en-IN')}</dd>
+            </div>
+          )}
+          <div className="booking-success-modal__row booking-success-modal__row--code">
+            <dt>Permit ref</dt>
+            <dd>{details.code}</dd>
+          </div>
+        </dl>
+
+        <button type="button" className="booking-success-modal__btn btn-gold" onClick={onDone}>
+          Done
+        </button>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+function ExperiencesScreen({ navigateTo }) {
   const [date, setDate] = useState('');
   const [pack, setPack] = useState('half');
   const [guests, setGuests] = useState(2);
   const [activeTab, setActiveTab] = useState('half');
+  const [bookingSuccess, setBookingSuccess] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Secure booking request filed! Package: ${pack}, Guests: ${guests}, Date: ${date}. Sasan permit code dispatched.`);
+    const pkgData = PACKAGES.find((item) => item.id === pack);
+    setBookingSuccess({
+      package: BOOKING_PACKAGE_LABELS[pack] || pkgData?.title || pack,
+      guests,
+      date,
+      price: pkgData?.price,
+      code: `SASAN-${Date.now().toString(36).toUpperCase().slice(-6)}`,
+    });
+  };
+
+  const closeBookingSuccess = () => setBookingSuccess(null);
+
+  const handleBookingDone = () => {
+    setBookingSuccess(null);
+    navigateTo('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const activePkg = PACKAGES.find(pkg => pkg.id === activeTab) || PACKAGES[0];
 
   return (
     <div className="bg-[#050f08] text-gray-200">
+      <BookingSuccessModal
+        open={Boolean(bookingSuccess)}
+        onClose={closeBookingSuccess}
+        onDone={handleBookingDone}
+        details={bookingSuccess}
+      />
       <div className="experiences-jungle-container">
         <section className="relative w-full h-[50vh] overflow-hidden flex flex-col justify-center items-center bg-transparent">
           <div className="section-safari-shadow" aria-hidden="true" />
           <div className="z-20 text-center px-6 select-none max-w-3xl">
-            <span class="text-xs uppercase tracking-[0.5em] text-[#c2aa72] font-semibold">Wild Expeditions</span>
-            <h1 class="text-4xl sm:text-6xl font-black uppercase text-white tracking-widest cinzel gold-glow mt-3">Safari Packages</h1>
+            <span className="text-xs uppercase tracking-[0.5em] text-[#c2aa72] font-semibold">Wild Expeditions</span>
+            <h1 className="text-4xl sm:text-6xl font-black uppercase text-white tracking-widest cinzel gold-glow mt-3">Safari Packages</h1>
           </div>
         </section>
 

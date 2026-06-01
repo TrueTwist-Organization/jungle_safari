@@ -5841,3 +5841,174 @@ h4,
     font-size: 0.55rem;
   }
 }
+
+/* Booking success modal */
+.booking-success-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  background: rgba(2, 6, 4, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: bookingSuccessOverlayIn 0.3s ease;
+}
+
+.booking-success-modal {
+  position: relative;
+  width: min(100%, 24rem);
+  padding: 1.75rem 1.35rem 1.35rem;
+  border-radius: 12px;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  background: linear-gradient(180deg, #0f1612 0%, #0a0f0c 100%);
+  box-shadow:
+    0 0 0 1px rgba(197, 160, 89, 0.08),
+    0 24px 60px rgba(0, 0, 0, 0.75);
+  text-align: center;
+  animation: bookingSuccessModalIn 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.booking-success-modal__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.14) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.booking-success-modal__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 1.85rem;
+  height: 1.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  border-radius: 50%;
+  background: rgba(10, 15, 12, 0.85);
+  color: rgba(197, 160, 89, 0.9);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.booking-success-modal__icon {
+  position: relative;
+  z-index: 1;
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 160, 89, 0.45);
+  background: rgba(197, 160, 89, 0.12);
+  color: #c5a059;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.booking-success-modal__title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #ebd19a;
+  font-size: clamp(1.05rem, 4.5vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.booking-success-modal__lead {
+  position: relative;
+  z-index: 1;
+  margin: 0.55rem 0 1rem;
+  color: rgba(220, 230, 220, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.booking-success-modal__details {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 1.1rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(197, 160, 89, 0.18);
+  background: rgba(5, 10, 7, 0.65);
+  text-align: left;
+}
+
+.booking-success-modal__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.35rem 0;
+}
+
+.booking-success-modal__row + .booking-success-modal__row {
+  border-top: 1px solid rgba(197, 160, 89, 0.1);
+}
+
+.booking-success-modal__row dt {
+  margin: 0;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(197, 160, 89, 0.65);
+  flex-shrink: 0;
+}
+
+.booking-success-modal__row dd {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: right;
+}
+
+.booking-success-modal__row--code dd {
+  color: #c5a059;
+  letter-spacing: 0.08em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.booking-success-modal__btn {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@keyframes bookingSuccessOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bookingSuccessModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
