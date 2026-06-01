@@ -2291,7 +2291,16 @@ function HomeScreen({ triggerSound, navigateTo, isMuted, siteEntered, heroAudioS
   const handleEnterWild = () => {
     onAudioUnmute?.();
     audio.playGateSound();
-    window.scrollTo({ top: window.innerHeight / 2, behavior: 'smooth' });
+
+    const packagesSection = document.getElementById('popular-packages');
+    if (packagesSection) {
+      const navOffset = 72;
+      const targetTop = packagesSection.getBoundingClientRect().top + window.scrollY - navOffset;
+      window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+      return;
+    }
+
+    navigateTo('experiences');
   };
 
   const heroVideoMuted = isMuted || !isInHero || !siteEntered;
@@ -2390,7 +2399,7 @@ function HomeScreen({ triggerSound, navigateTo, isMuted, siteEntered, heroAudioS
             <h3 className="hero-copy-sub text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em]">
               AN ADVENTURE OF A LIFETIME
             </h3>
-            <button onClick={handleEnterWild} className="hero-copy-cta btn-gold inline-flex items-center uppercase text-black cursor-pointer transition-all duration-300">
+            <button type="button" onClick={handleEnterWild} className="hero-copy-cta btn-gold inline-flex items-center uppercase text-black cursor-pointer transition-all duration-300">
               <span>EXPLORE SAFARI</span>
               <span className="text-[8px] leading-none">&#128062;</span>
             </button>
@@ -2412,7 +2421,7 @@ function HomeScreen({ triggerSound, navigateTo, isMuted, siteEntered, heroAudioS
             <h3 className="hero-copy-sub text-[6px] font-bold uppercase tracking-[0.16em]">
               AN ADVENTURE OF A LIFETIME
             </h3>
-            <button onClick={handleEnterWild} className="hero-copy-cta btn-gold inline-flex items-center uppercase text-black cursor-pointer transition-all duration-300">
+            <button type="button" onClick={handleEnterWild} className="hero-copy-cta btn-gold inline-flex items-center uppercase text-black cursor-pointer transition-all duration-300">
               <span>EXPLORE SAFARI</span>
               <span className="text-[6px] leading-none">&#128062;</span>
             </button>
