@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120 2400" preserveAspectRatio="none">
+  <defs>
+    <pattern id="roadTex" patternUnits="userSpaceOnUse" width="120" height="120">
+      <image xlink:href="/gallery_road_tile.png" width="120" height="120" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+    <linearGradient id="roadEdge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#030905" stop-opacity="0.85"/>
+      <stop offset="18%" stop-color="#030905" stop-opacity="0"/>
+      <stop offset="82%" stop-color="#030905" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#030905" stop-opacity="0.85"/>
+    </linearGradient>
+    <filter id="roadGlow" x="-20%" y="-2%" width="140%" height="104%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path
+    d="M 60 0
+       C 60 140, 92 200, 92 340
+       C 92 480, 28 540, 28 680
+       C 28 820, 94 880, 94 1020
+       C 94 1160, 30 1220, 30 1360
+       C 30 1500, 90 1560, 90 1700
+       C 90 1840, 32 1900, 32 2040
+       C 32 2180, 88 2240, 60 2400"
+    fill="none"
+    stroke="url(#roadTex)"
+    stroke-width="44"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#roadGlow)"
+  />
+  <path
+    d="M 60 0
+       C 60 140, 92 200, 92 340
+       C 92 480, 28 540, 28 680
+       C 28 820, 94 880, 94 1020
+       C 94 1160, 30 1220, 30 1360
+       C 30 1500, 90 1560, 90 1700
+       C 90 1840, 32 1900, 32 2040
+       C 32 2180, 88 2240, 60 2400"
+    fill="none"
+    stroke="url(#roadEdge)"
+    stroke-width="48"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.55"
+  />
+</svg>
